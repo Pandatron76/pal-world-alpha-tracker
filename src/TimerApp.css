@@ -1,0 +1,45 @@
+.timer-container {
+    text-align: center;
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    margin-bottom: 10px;
+}
+
+#palInput {
+    width: 200px;
+    font-size: 1em;
+    padding: 5px;
+}
+
+label {
+    font-size: 1em;
+    margin-left: 10px;
+}
+
+.timer-and-buttons-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+#timer {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center;
+}
+
+button {
+    font-size: 1em;
+    padding: 10px 20px;
+    margin: 0 10px;
+    cursor: pointer;
+}
