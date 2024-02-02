@@ -1,11 +1,21 @@
+import { useState } from 'react'
 import './App.css'
-import TimerApp from './TimerApp'
+import TimerContainer from './Timer/TimerContainer'
 
 const App = () => {
 
+  const [buttons, setButtons] = useState<JSX.Element[]>([<TimerContainer key={0}/>])
+
+  const handleOnAddButtonClick = () => {
+    setButtons(buttons.concat(<TimerContainer key={buttons.length}/>))
+  }
+
   return (
     <>
-      <TimerApp />
+      <button className="addTimerButton" onClick={() => handleOnAddButtonClick()}>Add Timer</button>
+      <div>
+        {buttons}
+      </div>
     </>
   )
 }

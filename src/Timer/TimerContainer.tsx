@@ -1,19 +1,17 @@
-// src/TimerApp.tsx
-import React, { useState, useEffect } from 'react';
-import './TimerApp.css';
+import { useState, useEffect } from 'react';
+import Timer from './Timer';
 
-//const soundURL = new URL('/FF1-Ship.mp3', import.meta.url);
 
-const TimerApp: React.FC = () => {
+const TimerContainer = () => {
     const [timerRunning, setTimerRunning] = useState<boolean>(false);
     const [timerHours, setTimerHours] = useState<string>('0');
     const [timerMinutes, setTimerMinutes] = useState<string>('0');
     const [timerSeconds, setTimerSeconds] = useState<string>('0');
     const [remainingTime, setRemainingTime] = useState<number>(0);
     const [timerExpiredAudio, setTimerExpiredAudio] = useState<HTMLAudioElement | null>(null);
-    //const [isPaused, setIsPaused] = useState<boolean>(true);
-    //const sound = new Audio(soundURL.href);
+    const [timerDisplay, setTimerDisplay] = useState<string>('00:00:00');
 
+    
     useEffect(() => {
         setRemainingTime(calculateTotalSeconds());
     }, [timerHours, timerMinutes, timerSeconds]);
@@ -24,7 +22,7 @@ const TimerApp: React.FC = () => {
             const minutes = Math.floor((remainingTime % 3600) / 60);
             const seconds = remainingTime % 60;
 
-            document.getElementById('timer')!.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            setTimerDisplay(`${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`)
         };
 
         const timerInterval = setInterval(() => {
@@ -77,6 +75,7 @@ const TimerApp: React.FC = () => {
             timerExpiredAudio.pause();
             timerExpiredAudio.currentTime = 0;
         }
+        setTimerDisplay('00:00:00');
     };
 
     const calculateTotalSeconds = () => {
@@ -88,52 +87,19 @@ const TimerApp: React.FC = () => {
     };
 
     return (
-        <div className="timer-container">
-            <div className="input-container">
-                <input type="text" id="palInput" placeholder="Pal Name" />
-            </div>
-            <div className="input-container">
-                <div>
-                    <label>Hours</label>
-                    <input
-                        type="number"
-                        value={timerHours}
-                        onChange={(e) => setTimerHours(e.target.value)}
-                        disabled={timerRunning}
-                    />
-                </div>
-                <div>
-                    <label>Minutes</label>
-                    <input
-                        type="number"
-                        value={timerMinutes}
-                        onChange={(e) => setTimerMinutes(e.target.value)}
-                        disabled={timerRunning}
-                    />
-                </div>
-                <div>
-                    <label>Seconds</label>
-                    <input
-                        type="number"
-                        value={timerSeconds}
-                        onChange={(e) => setTimerSeconds(e.target.value)}
-                        disabled={timerRunning}
-                    />
-                </div>
-            </div>
-            <div className="timer-and-buttons-container">
-                <h1 id="timer">{`${String(Math.floor(remainingTime / 3600)).padStart(2, '0')}:${String(Math.floor((remainingTime % 3600) / 60)).padStart(2, '0')}:${String(remainingTime % 60).padStart(2, '0')}`}</h1>
-                <div className="buttons-container">
-                    <button id="startStopButton" onClick={startStopTimer}>
-                        {timerRunning ? 'Pause' : 'Start'}
-                    </button>
-                    <button id="resetButton" onClick={resetTimer}>
-                        Reset
-                    </button>
-                </div>
-            </div>
-        </div>
-    );
-};
+        <Timer
+            timerRunning={timerRunning}
+            timerHours={timerHours}
+            timerMinutes={timerMinutes}
+            timerSeconds={timerSeconds}
+            timerDisplay={timerDisplay}
+            setTimerHours={setTimerHours}
+            setTimerMinutes={setTimerMinutes}
+            setTimerSeconds={setTimerSeconds}
+            startStopTimer={startStopTimer}
+            resetTimer={resetTimer}
+        />
+    )
+}
 
-export default TimerApp;
+export default TimerContainer
